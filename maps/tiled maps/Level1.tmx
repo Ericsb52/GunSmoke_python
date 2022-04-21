@@ -1567,6 +1567,6 @@
   <object id="18" name="Enemy_one" x="312" y="7732" width="16" height="16"/>
   <object id="19" name="Enemy_one" x="164" y="7920" width="16" height="16"/>
   <object id="20" name="Weed" x="4" y="8000" width="16" height="16"/>
-  <object id="21" name="Weed" x="492" y="8068" width="16" height="16"/>
+  <object id="21" name="Weed" x="496" y="8052" width="16" height="16"/>
  </objectgroup>
 </map>
