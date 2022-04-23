@@ -62,7 +62,15 @@ class Game():
         for flash in MUZZEL_FLASHES:
             self.flashes.append(pg.image.load(path.join(effects_file,flash)).convert_alpha())
         self.tumble_weed = pg.image.load(path.join(items_file,"Tumbleweeds.png"))
-        self.barrel_img = pg.image.load(path.join(items_file,"barrel_img"))
+        self.barrel_img = pg.image.load(path.join(items_file,"barrel_img.png"))
+
+        self.window_enemy_R = []
+        for img in WINDOW_ENEMY_IMG_R:
+            self.window_enemy_R.append(pg.image.load(path.join(enemy_img_file, img)).convert_alpha())
+        self.window_enemy_L = []
+        for img in WINDOW_ENEMY_IMG_L:
+            self.window_enemy_L.append(pg.image.load(path.join(enemy_img_file, img)).convert_alpha())
+
 
     def load_music(self):
         # setup sound folders
@@ -118,11 +126,12 @@ class Game():
             if tile_obj.name == "wall":
                 Wall_tm(self,tile_obj.x,tile_obj.y,tile_obj.width,tile_obj.height)
             if tile_obj.name == "Enemy_one":
-                print("making enemy")
                 Enemy_Normal(self,tile_obj.x,tile_obj.y)
+            if tile_obj.name == "Window_Enemy":
+                Enemy_Window(self,tile_obj.x,tile_obj.y)
             if tile_obj.name =="Weed":
                 Tumble_Weed(self,vec(tile_obj.x,tile_obj.y))
-            if tile_obj.name =="barrel":
+            if tile_obj.name =="Barrel":
                 Barrel(self,vec(tile_obj.x,tile_obj.y))
 
 
@@ -173,6 +182,7 @@ class Game():
         hits = pg.sprite.spritecollide(self.player,self.enemy_bullet_group,True)
         for hit in hits:
             self.player.take_dmg(hit.damage)
+        # enemy hitting player
         hits = pg.sprite.spritecollide(self.player,self.enemy_group,False)
         for hit in hits:
             self.player.take_dmg(hit.damage)
@@ -181,6 +191,9 @@ class Game():
                 self.playing = False
         if hits:
             self.player.pos += vec(MOB_KNOCKBACK,0).rotate(-hits[0].rot)
+        hits = pg.sprite.groupcollide(self.distructable_group,self.player_bullet_group,False,True)
+        for hit in hits:
+            hit.take_dmg(BULLET_DMG)
 
 
 

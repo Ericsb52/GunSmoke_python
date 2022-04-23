@@ -15,27 +15,22 @@ class Enemy_Normal(pg.sprite.Sprite):
     def __init__(self,game,x,y):
         super(Enemy_Normal, self).__init__()
         self.game = game
-
         # self.image = pg.Surface((TILESIZE*2,TILESIZE*2))
         # self.image.fill(RED)
         self.image = self.game.mob_img.copy()
         self.rect = self.image.get_rect()
-
         self.hit_rect = MOB_HIT_RECT
         self.hit_rect.center = self.rect.center
-
-
         self.pos = vec(x,y)
         self.vel = vec(0,0)
         self.acc = vec(0,0)
         self.rect.center = self.pos
         self.rot = 0
         self.health = 100
-
         self.damage = MOB_DMG
-
         self.game.all_sprites.add(self)
         self.game.enemy_group.add(self)
+        self.has_shot = False
 
     # no longer used
     def colide_with_walls(self,dir):
@@ -65,29 +60,48 @@ class Enemy_Normal(pg.sprite.Sprite):
                 if 0 < dist.length() < AVOID_RADIUS:
                     self.acc += dist.normalize()
 
-    def update(self):
-        self.rot = (self.game.player.pos - self.pos).angle_to(vec(1,0))
-        self.acc = vec(MOB_SPEED,0).rotate(-self.rot)
-        self.avoid_mobs()
-        self.acc.scale_to_length(MOB_SPEED)
-        self.acc += self.vel *-1
-        self.vel += self.acc*self.game.dt
-        self.pos += self.vel * self.game.dt+0.5*self.acc*self.game.dt**2
-        self.rect.center = self.pos
+    def chase_player(self):
+        dist = self.pos -self.game.player.pos
+        if 0< dist.length() < CHASE_RADIUS:
+            return True
+        else:
+            return False
 
-        self.hit_rect.centerx = self.pos.x
-        collide_with_walls(self, self.game.walls_group, 'x')
-        self.hit_rect.centery = self.pos.y
-        collide_with_walls(self, self.game.walls_group, 'y')
-        self.rect.center = self.hit_rect.center
+
+    def update(self):
+        if self.chase_player():
+            self.rot = (self.game.player.pos - self.pos).angle_to(vec(1,0))
+            self.acc = vec(MOB_SPEED,0).rotate(-self.rot)
+            self.avoid_mobs()
+            self.acc.scale_to_length(MOB_SPEED)
+            self.acc += self.vel *-1
+            self.vel += self.acc*self.game.dt
+            if self.has_shot == False:
+                self.pos += self.vel * self.game.dt+0.5*self.acc*self.game.dt**2
+            else:
+                self.pos += (self.vel * self.game.dt + 0.5 * self.acc * self.game.dt ** 2)*-1
+            self.rect.center = self.pos
+
+            self.hit_rect.centerx = self.pos.x
+            collide_with_walls(self, self.game.walls_group, 'x')
+            self.hit_rect.centery = self.pos.y
+            collide_with_walls(self, self.game.walls_group, 'y')
+            self.rect.center = self.hit_rect.center
 
 
 
         if self.health <= 0:
             self.kill()
+
         num = random.randint(1,100)
-        if num > 99:
+        if num > 80:
             self.shoot_at()
+        if num > 99:
+            self.has_shot = False
+
+        if self.rect.centerx > W_WIDTH or self.rect.x < 0:
+            print("killed player off screen")
+            self.take_dmg(100)
 
 
     def take_dmg(self, dmg):
@@ -109,14 +123,61 @@ class Enemy_Normal(pg.sprite.Sprite):
 
 
     def shoot_at(self):
-        print("shooting at player")
-        target_x = self.game.player.rect.centerx
-        target_y = self.game.player.rect.centery
-        angle = math.atan2(target_y-self.rect.centery,target_x-self.rect.centerx)
-        self.dx = math.cos(angle)
-        self.dy = math.sin(angle)
-        dir = vec(self.dx,self.dy)
-        b = Enemy_bullet(self.game,self.rect.center,dir)
+        dist = self.pos - self.game.player.pos
+        if 0 < dist.length() < SHOOT_RADIUS and not self.has_shot:
+            target_x = self.game.player.rect.centerx
+            target_y = self.game.player.rect.centery
+            angle = math.atan2(target_y-self.rect.centery,target_x-self.rect.centerx)
+            self.dx = math.cos(angle)
+            self.dy = math.sin(angle)
+            dir = vec(self.dx,self.dy)
+            Enemy_bullet(self.game,self.rect.center,dir)
+            self.has_shot = True
+
+
+class Enemy_Window(pg.sprite.Sprite):
+    def __init__(self,game,x,y):
+
+        super(Enemy_Window, self).__init__()
+        self.game = game
+        self.image = self.game.mob_img.copy()
+        self.rect = self.image.get_rect()
+
+        if self.rect.centerx < W_WIDTH /2:
+            self.img_list = self.game.window_enemy_L
+        else:
+            self.img_list = self.game.window_enemy_R
+
+        self.image = self.img_list[0].copy()
+        self.rect = self.image.get_rect()
+
+        self.hit_rect = MOB_HIT_RECT
+        self.hit_rect.center = self.rect.center
+        self.pos = vec(x, y)
+        self.rect.center = self.pos
+        self.health = 100
+        self.game.all_sprites.add(self)
+        self.game.enemy_group.add(self)
+        print("created")
+
+    def shoot_at(self):
+        dist = self.pos - self.game.player.pos
+        if 0 < dist.length() < WINDOW_SHOOT_RADIUS:
+            target_x = self.game.player.rect.centerx
+            target_y = self.game.player.rect.centery
+            angle = math.atan2(target_y-self.rect.centery,target_x-self.rect.centerx)
+            self.dx = math.cos(angle)
+            self.dy = math.sin(angle)
+            dir = vec(self.dx,self.dy)
+            Enemy_bullet(self.game,self.rect.center,dir)
+
+    def take_dmg(self, dmg):
+        self.health -= dmg
+
+    def update(self):
+        num = random.randint(1, 100)
+        if num > 80:
+            self.shoot_at()
 
 
 

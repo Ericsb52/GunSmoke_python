@@ -58,8 +58,12 @@ MOB_SPEED = random.randint(100,150)
 MOB_HEALTH = 100
 MOB_DMG = 35
 MOB_KNOCKBACK = 20
-AVOID_RADIUS = 50
-
+AVOID_RADIUS = 75
+CHASE_RADIUS = 300
+SHOOT_RADIUS = 150
+WINDOW_SHOOT_RADIUS = 300
+WINDOW_ENEMY_IMG_R = ["Outlaws_window_right1.png","Outlaws_window_right2.png","Outlaws_window_right3.png"]
+WINDOW_ENEMY_IMG_L = ["Outlaws_window_left1.png","Outlaws_window_left2.png","Outlaws_window_left3.png",]
 # bullet setting
 BULLET_DMG = 20
 MUZZEL_FLASHES = ["whitePuff15.png","whitePuff16.png","whitePuff17.png","whitePuff18.png"]

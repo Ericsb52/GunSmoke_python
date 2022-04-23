@@ -19,7 +19,7 @@ class Barrel(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.pos = pos
         self.rect.center = self.pos
-        self.health = 50
+        self.health = 45
 
     def update(self):
         if self.health <= 0:
@@ -33,7 +33,7 @@ class Barrel(pg.sprite.Sprite):
         pos = self.pos
         self.kill()
         num = random.randint(1,100)
-        if num > 90:
+        if num > 50:
             self.spawn_power_up()
 
     def spawn_power_up(self):
@@ -55,6 +55,7 @@ class Tumble_Weed(pg.sprite.Sprite):
         self.image = self.image_orig.copy()
         self.rect = self.image.get_rect()
         self.rot = 0
+        self.health = 20
         self.rotspeed = random.randint(5,10)
         self.pos = pos
         self.speed = 5
@@ -75,6 +76,9 @@ class Tumble_Weed(pg.sprite.Sprite):
         if now - self.spawntime > self.lifetime:
             self.kill()
 
+    def take_dmg(self,dmg):
+        self.health -= dmg
+
     def animate(self):
         now = pg.time.get_ticks()
         if now - self.last_animate > self.frame_rate:
@@ -86,18 +90,3 @@ class Tumble_Weed(pg.sprite.Sprite):
             self.rect = self.image.get_rect()
             self.rect.center = old_center
 
-class MuzzelFlash(pg.sprite.Sprite):
-    def __init__(self,game,pos):
-        self.groups = game.all_sprites
-        super(MuzzelFlash, self).__init__(self.groups)
-        self.game = game
-        self.size = random.randint(10,16)
-        self.image = pg.transform.scale(random.choice(game.flashes),(self.size,self.size))
-        self.rect = self.image.get_rect()
-        self.pos = pos
-        self.rect.center = pos
-        self.spawntime = pg.time.get_ticks()
-
-    def update(self):
-        if pg.time.get_ticks() - self.spawntime > FLASH_DUR:
-            self.kill()

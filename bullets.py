@@ -62,3 +62,21 @@ class Enemy_bullet(pg.sprite.Sprite):
 
         if pg.time.get_ticks() - self.spawn_time > self.life_time:
             self.kill()
+
+
+
+class MuzzelFlash(pg.sprite.Sprite):
+    def __init__(self,game,pos):
+        self.groups = game.all_sprites
+        super(MuzzelFlash, self).__init__(self.groups)
+        self.game = game
+        self.size = random.randint(10,16)
+        self.image = pg.transform.scale(random.choice(game.flashes),(self.size,self.size))
+        self.rect = self.image.get_rect()
+        self.pos = pos
+        self.rect.center = pos
+        self.spawntime = pg.time.get_ticks()
+
+    def update(self):
+        if pg.time.get_ticks() - self.spawntime > FLASH_DUR:
+            self.kill()

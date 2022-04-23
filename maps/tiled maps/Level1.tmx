@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="32" height="512" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="22">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="32" height="512" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="31">
  <tileset firstgid="1" source="Town tiles.tsx"/>
  <layer id="1" name="Ground" width="32" height="512">
   <data encoding="csv">
@@ -987,7 +987,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,137,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,45,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,45,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,105,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -999,8 +999,8 @@
 0,0,0,0,0,0,115,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,45,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,45,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,137,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,137,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -1555,10 +1555,8 @@
   <object id="3" name="wall" x="0" y="7804" width="64" height="112"/>
   <object id="4" name="wall" x="464" y="7808" width="48" height="160"/>
   <object id="5" name="wall" x="0" y="7472" width="80" height="240"/>
-  <object id="6" name="wall" x="96" y="7680" width="12" height="32"/>
   <object id="7" name="wall" x="100" y="7620" width="12" height="24"/>
   <object id="8" name="wall" x="100" y="7540" width="12" height="24"/>
-  <object id="9" name="wall" x="96" y="7488" width="12" height="12"/>
   <object id="10" name="wall" x="80" y="7472" width="64" height="16"/>
   <object id="11" name="wall" x="84" y="7680" width="12" height="32"/>
   <object id="12" name="wall" x="80" y="7488" width="12" height="16"/>
@@ -1568,5 +1566,12 @@
   <object id="19" name="Enemy_one" x="164" y="7920" width="16" height="16"/>
   <object id="20" name="Weed" x="4" y="8000" width="16" height="16"/>
   <object id="21" name="Weed" x="496" y="8052" width="16" height="16"/>
+  <object id="22" name="Barrel" x="140" y="7784" width="16" height="16"/>
+  <object id="25" name="Barrel" x="448" y="7984" width="16" height="16"/>
+  <object id="26" name="Barrel" x="464" y="7984" width="16" height="16"/>
+  <object id="27" name="Barrel" x="480" y="7984" width="16" height="16"/>
+  <object id="28" name="Window_Enemy" x="472" y="7824" width="16" height="16"/>
+  <object id="29" name="Window_Enemy" x="56" y="7616" width="16" height="16"/>
+  <object id="30" name="Barrel" x="324" y="7868" width="16" height="16"/>
  </objectgroup>
 </map>
